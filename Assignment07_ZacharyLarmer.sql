@@ -203,7 +203,7 @@ SELECT ProductName, FORMAT(UnitPrice, 'C', 'en-US') FROM Products;
 SELECT 
 	ProductName, 
 	FORMAT(UnitPrice, 'C', 'en-US') AS ProductPrice
-FROM Products
+FROM vProducts
 ORDER BY ProductName; 
 
 go
@@ -227,7 +227,7 @@ SELECT
 	CategoryName, 
 	ProductName, 
 	FORMAT(UnitPrice, 'C', 'en-US') AS ProductPrice
-FROM Categories AS C JOIN Products AS P
+FROM vCategories AS C JOIN vProducts AS P
 	ON C.CategoryID = P.CategoryID
 ORDER BY CategoryName, ProductName;
 
@@ -252,7 +252,7 @@ SELECT
 	ProductName, 
 	DATENAME(mm, InventoryDate) + ', ' + DATENAME(yy, InventoryDate) AS InventoryDate, 
 	[Count]
-FROM Products AS P JOIN Inventories AS I
+FROM vProducts AS P JOIN vInventories AS I
 	ON P.ProductID = I.ProductID
 ORDER BY ProductName, DATEPART(mm, InventoryDate);
 
@@ -282,7 +282,7 @@ CREATE VIEW vProductInventories
 			ProductName, 
 			DATENAME(mm, InventoryDate) + ', ' + DATENAME(yy, InventoryDate) AS InventoryDate, 
 			[Count]
-		FROM Products AS P JOIN Inventories AS I
+		FROM vProducts AS P JOIN vInventories AS I
 			ON P.ProductID = I.ProductID
 		ORDER BY ProductName, DATEPART(mm, InventoryDate);	
 
@@ -319,9 +319,9 @@ CREATE VIEW vCategoryInventories
 			CategoryName, 
 			DATENAME(mm, InventoryDate) + ', ' + DATENAME(yy, InventoryDate) AS InventoryDate, 
 			SUM([Count]) AS InventoryCountByCategory
-		FROM Categories AS C JOIN Products AS P
+		FROM vCategories AS C JOIN vProducts AS P
 			ON C.CategoryID = P.CategoryID
-		JOIN Inventories AS I
+		JOIN vInventories AS I
 			ON P.ProductID = I.ProductID
 		GROUP BY CategoryName, DATENAME(mm, InventoryDate) + ', ' + DATENAME(yy, InventoryDate)
 		ORDER BY CategoryName, DATEPART(mm, DATENAME(mm, InventoryDate) + ', ' + DATENAME(yy, InventoryDate));
