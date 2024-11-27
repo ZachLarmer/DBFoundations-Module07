@@ -373,6 +373,7 @@ go
 -- Display months with increased counts as 1, same counts as 0, and decreased counts as -1. 
 -- Varify that the results are ordered by the Product and Date.
 
+/*
 SELECT 
 	ProductName,
 	InventoryDate,
@@ -384,6 +385,7 @@ SELECT
 		WHEN [Count] < PreviousMonthCount THEN -1
 	END AS CountVsPreviousCountKPI
 FROM vProductInventoriesWithPreviousMonthCounts;
+*/
 
 GO
 
